@@ -19,12 +19,9 @@ async def upload_file(
     user: Optional[dict] = Depends(get_current_user_optional),
     db: Session = Depends(get_db)
 ):
-    # Validate file extension
+    # Validate file extension (browsers may send text/csv, text/plain, or application/octet-stream
+    # for .csv files, so rely on the extension rather than the MIME type)
     if not file.filename.lower().endswith(".csv"):
-        raise HTTPException(status_code=400, detail="Unsupported file format.\nPlease upload a CSV (.csv) file.")
-    
-    # Validate MIME type if available
-    if file.content_type and file.content_type not in ["text/csv", "application/vnd.ms-excel"]:
         raise HTTPException(status_code=400, detail="Unsupported file format.\nPlease upload a CSV (.csv) file.")
 
     job_id = await handle_file_upload(file)
