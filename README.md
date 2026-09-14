@@ -304,7 +304,6 @@ If a provider fails or hits its quota, the app silently falls through to the nex
 - [x] Google OAuth + JWT authentication
 - [x] Session history with Supabase Postgres
 - [ ] Public deployment of frontend + backend
-- [ ] Model versioning / experiment tracking UI
 
 ---
 
