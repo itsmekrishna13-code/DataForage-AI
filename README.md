@@ -4,6 +4,8 @@
 
 DataForge AI is a full-stack application that automates the entire data science workflow for any tabular dataset: automated exploratory data analysis (EDA), machine learning model training with rigorous validation, SHAP-based explainability, AI-assisted feature engineering, natural-language data chat, and one-click export to a standalone FastAPI service.
 
+> 🌐 **Live:** Frontend → https://dataforge-ai-black.vercel.app · Backend → https://dataforge-ai-backend-x0lm.onrender.com (`/health`, `/docs`)
+
 ---
 
 ## ✨ Key Features
@@ -71,6 +73,7 @@ DataForge AI is a full-stack application that automates the entire data science 
 | Auth | Google OAuth 2.0 (Authlib) + JWT |
 | AI Providers | Groq, Gemini, OpenRouter, Cerebras, Hugging Face |
 | Export & Reports | FastAPI codegen, FPDF2, nbformat |
+| Deployment | Render (Free tier · backend) · Vercel (frontend) |
 | Package Managers | uv (backend) · npm / bun (frontend) |
 
 ---
@@ -78,7 +81,7 @@ DataForge AI is a full-stack application that automates the entire data science 
 ## 📁 Repository Structure
 
 ```
-dataforge-ai/
+DataForage-AI/
 ├── backend/                      # FastAPI application
 │   ├── app/
 │   │   ├── main.py               # App entrypoint, CORS, router registration
@@ -123,8 +126,8 @@ dataforge-ai/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/itsmekrishna13-code/dataforge-ai-backend.git
-cd dataforge-ai-backend
+git clone https://github.com/itsmekrishna13-code/DataForage-AI.git
+cd DataForage-AI
 ```
 
 ### 2. Start the backend
@@ -169,8 +172,8 @@ copy .env.example .env        # Windows
 | `OPENROUTER_API_KEY` | Optional | OpenRouter LLM (fallback provider) |
 | `CEREBRAS_API_KEY` | Optional | Cerebras LLM (fallback provider) |
 | `HUGGINGFACE_API_KEY` | Optional | Hugging Face LLM (final fallback) |
-| `GOOGLE_CLIENT_ID` | **Yes** | Google OAuth client ID |
-| `GOOGLE_CLIENT_SECRET` | **Yes** | Google OAuth client secret |
+| `GOOGLE_CLIENT_ID` | Optional | Google OAuth client ID (guest mode without it) |
+| `GOOGLE_CLIENT_SECRET` | Optional | Google OAuth client secret (guest mode without it) |
 | `JWT_SECRET` | **Yes** | Secret used to sign session JWTs |
 | `GOOGLE_REDIRECT_URI` | Optional | Defaults to `http://localhost:8000/auth/google/callback` |
 | `FRONTEND_URL` | Optional | Frontend origin; defaults to `http://localhost:5173` and is added to CORS |
@@ -261,7 +264,8 @@ Interactive docs are available at `http://localhost:8000/docs` (Swagger UI) once
 ## 🔐 Authentication
 
 - Sign-in uses **Google OAuth 2.0** (Authlib). After the callback, the API issues a **signed JWT** which the frontend stores and sends for protected routes.
-- Supported CORS origins: `localhost:5173`, `localhost:8080`, the Vercel deployment, and the value of `FRONTEND_URL`.
+- **Guest mode:** OAuth is optional. If `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` are not set, the app boots in guest-only mode (no sign-in) — useful for local development.
+- Supported CORS origins: `localhost:5173`, `localhost:8080`, any `https://*.vercel.app` deployment (production & preview), and the value of `FRONTEND_URL`.
 - On first sign-in, a `users` row is created; every upload inserts a `user_sessions` row (available via `/user/history`).
 
 ---
@@ -286,7 +290,7 @@ If a provider fails or hits its quota, the app silently falls through to the nex
 
 | Issue | Fix |
 |---|---|
-| Backend won't start | Confirm `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and `JWT_SECRET` are set in `backend/.env` (the app refuses to boot without them) |
+| Backend won't start | Ensure `JWT_SECRET` is set in `backend/.env` (auto-generated if missing, but sessions reset on restart). `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` are optional — without them the app runs in guest-only mode |
 | Start takes 20–40s | Expected — heavy ML imports (SHAP/pandas/sklearn). Wait for `/health` to return `{"status":"ok"}` |
 | Frontend can't reach API | Set `VITE_API_URL` in `Frontend/.env` or verify the backend runs on the port referenced by `Frontend/src/lib/config.ts` |
 | Supabase connection refused | Use the **Transaction mode pooler** host (`aws-0-<region>.pooler.supabase.com:6543`) — the direct `db.<ref>.supabase.co` host is IPv6-only |
@@ -303,7 +307,7 @@ If a provider fails or hits its quota, the app silently falls through to the nex
 - [x] FastAPI export for standalone deployment
 - [x] Google OAuth + JWT authentication
 - [x] Session history with Supabase Postgres
-- [ ] Public deployment of frontend + backend
+- [x] Public deployment of frontend + backend
 
 ---
 
@@ -320,4 +324,4 @@ GitHub: [@itsmekrishna13-code](https://github.com/itsmekrishna13-code)
 
 ---
 
-*See [`PROJECT_LOG.md`](PROJECT_LOG.md) for the complete development history and [`02_CURRENT_STATUS.md`](02_CURRENT_STATUS.md) for live deployment status.*
+*See [`PROJECT_LOG.md`](PROJECT_LOG.md) for the complete development history.*
