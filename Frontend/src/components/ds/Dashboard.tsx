@@ -1702,7 +1702,7 @@ function ChatToChartSection({ hasData, refs }: { hasData: boolean; refs: RefMap 
 
   return (
     <Section id="chatchart" refs={refs}>
-      <SectionHeader title="12. Chat to Chart" caption="Describe a chart in plain English." />
+      <SectionHeader title="12. Chat to Chart" caption="Generate visualizations from text" />
       <div className="mt-5 space-y-4">
         <CardShell className="p-5">
           <div className="flex flex-col gap-2 sm:flex-row">
@@ -2017,7 +2017,7 @@ function ChatSection({ hasData, refs }: { hasData: boolean; refs: RefMap }) {
 
   return (
     <Section id="chat" refs={refs}>
-      <SectionHeader title="15. Chat with Data" caption="Ask questions about the dataset in natural language." />
+      <SectionHeader title="15. Chat with Data" caption="Ask anything about your dataset" />
       <div className="mt-5">
         <CardShell className="p-5">
           <div className="max-h-96 space-y-3 overflow-y-auto">
