@@ -30,6 +30,7 @@ app.add_middleware(
         "https://dataforge-ai-frontend.vercel.app",
         config.FRONTEND_URL,  # from .env, for production
     ],
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
