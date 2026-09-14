@@ -14,7 +14,6 @@ pydantic
 requests
 shap
 scikit-learn
-streamlit
 authlib
 httpx
 pyjwt
