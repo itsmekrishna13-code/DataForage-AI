@@ -1,0 +1,24 @@
+# Python-generated files
+__pycache__/
+*.pyc
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Database
+sql_app.db
+
+# Environment variables
+.env
